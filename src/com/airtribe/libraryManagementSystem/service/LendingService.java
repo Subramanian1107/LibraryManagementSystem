@@ -37,12 +37,19 @@ public class LendingService {
         Book book = repository.find(isbn);
         book.returnBook();
 
-        Observer observer =
-                book.nextReservation();
+        Patron nextPatron = book.nextReservation();
 
-        if (observer != null)
-            observer.update(
-                    "Reserved book available");
+        if (nextPatron != null) {
+
+            for (Observer channel :
+                    nextPatron.getNotificationChannels()) {
+
+                channel.update("Your reserved book is available!");
+            }
+
+            // Optionally mark book as RESERVED again
+            book.reserve(nextPatron);
+        }
 
         logger.info("Book returned");
     }

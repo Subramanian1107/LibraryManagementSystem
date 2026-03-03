@@ -12,7 +12,7 @@ public abstract class Book {
     private final int year;
 
     private BookStatus status;
-    private final Queue<Observer> reservationList;
+    private final Queue<Patron> reservationList;
     public Book(String title, String author,
                 String isbn, int year) {
 
@@ -59,12 +59,12 @@ public abstract class Book {
 
         status = BookStatus.BORROWED;
     }
-    public void reserve(Observer observer) {
-        reservationList.add(observer);
+    public void reserve(Patron patron) {
+        reservationList.add(patron);
         status = BookStatus.RESERVED;
     }
 
-    public Observer nextReservation() {
+    public Patron nextReservation() {
         return reservationList.poll();
     }
 }

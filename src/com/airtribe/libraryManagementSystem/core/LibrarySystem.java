@@ -5,6 +5,8 @@ import com.airtribe.libraryManagementSystem.repository.PatronRepository;
 import com.airtribe.libraryManagementSystem.service.BookService;
 import com.airtribe.libraryManagementSystem.service.LendingService;
 import com.airtribe.libraryManagementSystem.service.PatronService;
+import com.airtribe.libraryManagementSystem.service.RecommendationService;
+import com.airtribe.libraryManagementSystem.strategy.HistoryBasedRecommendation;
 
 public class LibrarySystem {
     private static LibrarySystem instance;
@@ -12,6 +14,7 @@ public class LibrarySystem {
     private BookService bookService;
     private PatronService patronService;
     private LendingService lendingService;
+    private RecommendationService recommendationService;
 
     private LibrarySystem() {
 
@@ -29,6 +32,10 @@ public class LibrarySystem {
 
         lendingService =
                 new LendingService(bookRepo);
+        recommendationService =
+                new RecommendationService(
+                        new HistoryBasedRecommendation(),
+                        bookRepo);
     }
 
     public static LibrarySystem getInstance() {
@@ -40,6 +47,9 @@ public class LibrarySystem {
             }
         }
         return instance;
+    }
+    public RecommendationService recommend() {
+        return recommendationService;
     }
 
     public BookService books() {
