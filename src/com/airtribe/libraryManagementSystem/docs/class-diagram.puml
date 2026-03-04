@@ -1,0 +1,21 @@
+@startuml
+class LibrarySystem
+class BranchService
+class LendingService
+class PatronService
+class RecommendationService
+class LibraryBranch
+class Book
+class Patron
+class Observer
+
+LibrarySystem --> BranchService
+LibrarySystem --> LendingService
+LibrarySystem --> PatronService
+LibrarySystem --> RecommendationService
+
+BranchService --> LibraryBranch
+LibraryBranch --> Book
+Book --> Patron
+Patron --> Observer
+@enduml

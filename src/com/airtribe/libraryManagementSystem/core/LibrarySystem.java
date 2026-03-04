@@ -2,15 +2,12 @@ package com.airtribe.libraryManagementSystem.core;
 
 import com.airtribe.libraryManagementSystem.repository.BookRepository;
 import com.airtribe.libraryManagementSystem.repository.PatronRepository;
-import com.airtribe.libraryManagementSystem.service.BookService;
-import com.airtribe.libraryManagementSystem.service.LendingService;
-import com.airtribe.libraryManagementSystem.service.PatronService;
-import com.airtribe.libraryManagementSystem.service.RecommendationService;
+import com.airtribe.libraryManagementSystem.service.*;
 import com.airtribe.libraryManagementSystem.strategy.HistoryBasedRecommendation;
 
 public class LibrarySystem {
     private static LibrarySystem instance;
-
+    private BranchService branchService;
     private BookService bookService;
     private PatronService patronService;
     private LendingService lendingService;
@@ -29,9 +26,9 @@ public class LibrarySystem {
 
         patronService =
                 new PatronService(patronRepo);
-
+        branchService = new BranchService();
         lendingService =
-                new LendingService(bookRepo);
+                new LendingService(branchService);
         recommendationService =
                 new RecommendationService(
                         new HistoryBasedRecommendation(),
