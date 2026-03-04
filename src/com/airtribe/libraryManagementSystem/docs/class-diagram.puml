@@ -1,21 +1,185 @@
 @startuml
-class LibrarySystem
-class BranchService
-class LendingService
-class PatronService
-class RecommendationService
-class LibraryBranch
-class Book
-class Patron
-class Observer
 
+' =========================
+' Core System (Singleton)
+' =========================
+class LibrarySystem {
+  - static instance : LibrarySystem
+  - branchService : BranchService
+  - patronService : PatronService
+  - lendingService : LendingService
+  - recommendationService : RecommendationService
+
+  + getInstance() : LibrarySystem
+  + branches() : BranchService
+  + patrons() : PatronService
+  + lending() : LendingService
+  + recommend() : RecommendationService
+}
+
+note right of LibrarySystem
+<<Singleton Pattern>>
+end note
+
+' =========================
+' Branch Management
+' =========================
+class BranchService {
+  - branches : Map<String, LibraryBranch>
+
+  + addBranch(id, name)
+  + getBranch(id) : LibraryBranch
+  + transferBook(isbn, fromBranch, toBranch)
+}
+
+class LibraryBranch {
+  - branchId : String
+  - name : String
+  - inventory : Map<String, Book>
+
+  + addBook(book : Book)
+  + removeBook(isbn : String)
+  + findBook(isbn : String) : Book
+}
+
+' =========================
+' Book Hierarchy
+' =========================
+abstract class Book {
+  - title : String
+  - author : String
+  - isbn : String
+  - year : int
+  - status : BookStatus
+  - reservations : Queue<Patron>
+
+  + borrow()
+  + returnBook()
+  + reserve(patron : Patron)
+  + nextReservation() : Patron
+  + getStatus() : BookStatus
+}
+
+class LendingBook {
+  + borrow()
+}
+
+class ReferenceBook {
+  + borrow()
+}
+
+Book <|-- LendingBook
+Book <|-- ReferenceBook
+
+note right of Book
+Reservation Queue:
+Queue<Patron>
+end note
+
+' =========================
+' Patron
+' =========================
+class Patron {
+  - id : String
+  - name : String
+  - history : List<String>
+  - notificationChannels : List<Observer>
+
+  + addHistory(isbn : String)
+  + addNotificationChannel(obs : Observer)
+  + getNotificationChannels() : List<Observer>
+}
+
+' =========================
+' Observer Pattern
+' =========================
+interface Observer {
+  + update(message : String)
+}
+
+class EmailNotification {
+  - email : String
+  + update(message : String)
+}
+
+class SMSNotification {
+  - phone : String
+  + update(message : String)
+}
+
+class WhatsAppNotification {
+  - phone : String
+  + update(message : String)
+}
+
+Observer <|.. EmailNotification
+Observer <|.. SMSNotification
+Observer <|.. WhatsAppNotification
+
+note right of Observer
+<<Observer Pattern>>
+end note
+
+' =========================
+' Recommendation (Strategy)
+' =========================
+interface RecommendationStrategy {
+  + recommend(patron : Patron) : List<Book>
+}
+
+class HistoryBasedRecommendation {
+  + recommend(patron : Patron) : List<Book>
+}
+
+class PopularityBasedRecommendation {
+  + recommend(patron : Patron) : List<Book>
+}
+
+RecommendationStrategy <|.. HistoryBasedRecommendation
+RecommendationStrategy <|.. PopularityBasedRecommendation
+
+class RecommendationService {
+  - strategy : RecommendationStrategy
+
+  + setStrategy(strategy)
+  + recommend(patron : Patron) : List<Book>
+}
+
+note right of RecommendationService
+<<Strategy Pattern>>
+end note
+
+' =========================
+' Lending Service
+' =========================
+class LendingService {
+  - branchService : BranchService
+
+  + checkout(isbn, patron, branchId)
+  + returnBook(isbn, branchId)
+}
+
+class PatronService {
+  - patrons : Map<String, Patron>
+
+  + registerPatron(id, name)
+  + getPatron(id) : Patron
+}
+
+' =========================
+' Relationships
+' =========================
 LibrarySystem --> BranchService
-LibrarySystem --> LendingService
 LibrarySystem --> PatronService
+LibrarySystem --> LendingService
 LibrarySystem --> RecommendationService
 
 BranchService --> LibraryBranch
-LibraryBranch --> Book
-Book --> Patron
-Patron --> Observer
+LibraryBranch "1" --> "*" Book
+Book "1" --> "*" Patron : reservations
+Patron "1" --> "*" Observer
+
+LendingService --> BranchService
+RecommendationService --> RecommendationStrategy
+
 @enduml
