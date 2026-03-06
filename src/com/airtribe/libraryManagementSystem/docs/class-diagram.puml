@@ -102,18 +102,12 @@ class EmailNotification {
   + update(message : String)
 }
 
-class SMSNotification {
-  - phone : String
-  + update(message : String)
-}
-
 class WhatsAppNotification {
   - phone : String
   + update(message : String)
 }
 
 Observer <|.. EmailNotification
-Observer <|.. SMSNotification
 Observer <|.. WhatsAppNotification
 
 note right of Observer
@@ -131,12 +125,12 @@ class HistoryBasedRecommendation {
   + recommend(patron : Patron) : List<Book>
 }
 
-class PopularityBasedRecommendation {
+class AuthorBasedRecommendation {
   + recommend(patron : Patron) : List<Book>
 }
 
 RecommendationStrategy <|.. HistoryBasedRecommendation
-RecommendationStrategy <|.. PopularityBasedRecommendation
+RecommendationStrategy <|.. AuthorBasedRecommendation
 
 class RecommendationService {
   - strategy : RecommendationStrategy

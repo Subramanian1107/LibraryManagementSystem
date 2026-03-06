@@ -232,7 +232,7 @@ libraryManagementSystem
 
 Below is the class diagram representing the architecture of the Library Management System.
 
-![Library Management System Class Diagram](src/com/airtribe/libraryManagementSystem/docs/class-diagram.png)
+![Library Management System Class Diagram](src/com/airtribe/libraryManagementSystem/docs/class_diagram.png)
 
 # System Architecture
 
