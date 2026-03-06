@@ -1,8 +1,9 @@
 package com.airtribe.libraryManagementSystem.service;
 
 import com.airtribe.libraryManagementSystem.entity.Book;
+
+import com.airtribe.libraryManagementSystem.entity.LibraryBranch;
 import com.airtribe.libraryManagementSystem.entity.Patron;
-import com.airtribe.libraryManagementSystem.repository.BookRepository;
 import com.airtribe.libraryManagementSystem.strategy.RecommendationStrategy;
 
 import java.util.ArrayList;
@@ -11,28 +12,28 @@ import java.util.List;
 public class RecommendationService {
 
     private RecommendationStrategy strategy;
-    private BookRepository repository;
+    private BranchService branchService;
 
     public RecommendationService(
             RecommendationStrategy strategy,
-            BookRepository repository) {
+            BranchService branchService) {
 
         this.strategy = strategy;
-        this.repository = repository;
+        this.branchService = branchService;
     }
 
-    public void setStrategy(
-            RecommendationStrategy strategy) {
-
+    public void setStrategy(RecommendationStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public List<Book> recommend(
-            Patron patron) {
+    public List<Book> recommend(Patron patron) {
 
-        return strategy.recommend(
-                patron,
-                new ArrayList<>(
-                        repository.getAll()));
+        List<Book> allBooks = new ArrayList<>();
+
+        for (LibraryBranch branch : branchService.getAllBranches()) {
+            allBooks.addAll(branch.getBooks().values());
+        }
+
+        return strategy.recommend(patron, allBooks);
     }
 }
