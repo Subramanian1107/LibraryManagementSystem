@@ -2,6 +2,7 @@ package com.airtribe.libraryManagementSystem.service;
 
 import com.airtribe.libraryManagementSystem.entity.Patron;
 import com.airtribe.libraryManagementSystem.observer.EmailNotification;
+import com.airtribe.libraryManagementSystem.observer.SMSNotification;
 import com.airtribe.libraryManagementSystem.observer.WhatsAppNotification;
 import com.airtribe.libraryManagementSystem.repository.PatronRepository;
 
@@ -29,6 +30,8 @@ public class PatronService {
                 new EmailNotification(email));
         patron.addNotificationChannel(
                 new WhatsAppNotification(phoneNumber));
+        patron.addNotificationChannel(
+                new SMSNotification(phoneNumber));
 
 
         repository.add(patron);
