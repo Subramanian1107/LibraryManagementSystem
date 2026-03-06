@@ -228,6 +228,12 @@ libraryManagementSystem
 
 ---
 
+# Class Diagram
+
+Below is the class diagram representing the architecture of the Library Management System.
+
+![Library Management System Class Diagram](src/com/airtribe/libraryManagement/docs/class-diagram.png)
+
 # System Architecture
 
 The system is divided into layers:
