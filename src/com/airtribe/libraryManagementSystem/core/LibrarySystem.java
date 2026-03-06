@@ -20,13 +20,13 @@ public class LibrarySystem {
 
         PatronRepository patronRepo =
                 new PatronRepository();
-
+        branchService = new BranchService();
         bookService =
-                new BookService(bookRepo);
+                new BookService(branchService);
 
         patronService =
                 new PatronService(patronRepo);
-        branchService = new BranchService();
+
         lendingService =
                 new LendingService(branchService);
         recommendationService =
@@ -59,5 +59,9 @@ public class LibrarySystem {
 
     public LendingService lending() {
         return lendingService;
+    }
+
+    public BranchService branches() {
+        return branchService;
     }
 }

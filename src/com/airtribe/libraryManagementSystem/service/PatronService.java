@@ -1,6 +1,8 @@
 package com.airtribe.libraryManagementSystem.service;
 
 import com.airtribe.libraryManagementSystem.entity.Patron;
+import com.airtribe.libraryManagementSystem.observer.EmailNotification;
+import com.airtribe.libraryManagementSystem.observer.WhatsAppNotification;
 import com.airtribe.libraryManagementSystem.repository.PatronRepository;
 
 import java.util.logging.Logger;
@@ -19,10 +21,15 @@ public class PatronService {
 
     public void registerPatron(
             String id,
-            String name) {
+            String name,String email, String phoneNumber) {
 
         Patron patron =
                 new Patron(id, name);
+        patron.addNotificationChannel(
+                new EmailNotification(email));
+        patron.addNotificationChannel(
+                new WhatsAppNotification(phoneNumber));
+
 
         repository.add(patron);
 

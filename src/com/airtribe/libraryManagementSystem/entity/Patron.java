@@ -18,7 +18,9 @@ public class Patron {
         history = new ArrayList<>();
         this.notificationChannels = new ArrayList<>();
     }
-
+    public void addNotificationChannel(Observer observer) {
+        notificationChannels.add(observer);
+    }
     public void addHistory(String isbn) {
         history.add(isbn);
     }

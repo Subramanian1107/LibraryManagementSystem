@@ -61,7 +61,7 @@ public class LendingService {
         book.returnBook();
 
         Patron nextPatron = book.nextReservation();
-
+        System.out.println(nextPatron.getId());
         if (nextPatron != null) {
 
             for (Observer channel :
@@ -75,5 +75,21 @@ public class LendingService {
 
         logger.info("Book returned: "
                 + isbn + " at branch " + branchId);
+    }
+    public void reserveBook(String isbn, Patron patron, String branchId) {
+
+        LibraryBranch branch = branchService.getBranch(branchId);
+
+        Book book = branch.findBook(isbn);
+
+        if (book == null)
+            throw new RuntimeException("Book not found");
+
+        if (book.getStatus() == BookStatus.AVAILABLE)
+            throw new RuntimeException("Book is available. You can checkout directly.");
+
+        book.reserve(patron);
+
+        logger.info("Book reserved: " + isbn + " by " + patron.getId());
     }
 }

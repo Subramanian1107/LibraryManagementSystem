@@ -1,5 +1,6 @@
 package com.airtribe.libraryManagementSystem.entity;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ public class LibraryBranch {
     private final String name;
 
     // Inventory specific to branch
-    private final Map<String, Book> inventory = new HashMap<>();
+    private final Map<String, Book> books = new HashMap<>();
 
     public LibraryBranch(String branchId, String name) {
         this.branchId = branchId;
@@ -25,18 +26,19 @@ public class LibraryBranch {
     }
 
     public void addBook(Book book) {
-        inventory.put(book.getIsbn(), book);
+        books.put(book.getIsbn(), book);
     }
 
     public void removeBook(String isbn) {
-        inventory.remove(isbn);
+        books.remove(isbn);
     }
 
     public Book findBook(String isbn) {
-        return inventory.get(isbn);
+        return books.get(isbn);
     }
 
-    public Map<String, Book> getInventory() {
-        return inventory;
+    public Map<String, Book> getBooks() {
+        return books;
     }
+
 }

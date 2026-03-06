@@ -3,6 +3,7 @@ package com.airtribe.libraryManagementSystem.service;
 import com.airtribe.libraryManagementSystem.entity.Book;
 import com.airtribe.libraryManagementSystem.entity.LibraryBranch;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,4 +36,8 @@ public class BranchService {
         from.removeBook(isbn);
         to.addBook(book);
     }
+    public Collection<LibraryBranch> getAllBranches() {
+        return branches.values();
+    }
+
 }
