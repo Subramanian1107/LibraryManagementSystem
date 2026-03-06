@@ -102,6 +102,12 @@ class EmailNotification {
   + update(message : String)
 }
 
+class SMSNotification {
+  - phone : String
+  + update(message : String)
+}
+
+
 class WhatsAppNotification {
   - phone : String
   + update(message : String)
