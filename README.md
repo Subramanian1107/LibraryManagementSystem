@@ -215,10 +215,11 @@ libraryManagementSystem
 │   └── WhatsAppNotification
 │
 ├── repository
-│   └── BookRepository
+│   └── PatronRepository
 │
 ├── service
 │   ├── BranchService
+│   ├── BookService
 │   ├── LendingService
 │   ├── PatronService
 │   └── RecommendationService
